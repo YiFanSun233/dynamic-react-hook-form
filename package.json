@@ -1,0 +1,47 @@
+{
+  "name": "dynamic-react-hook-form",
+  "version": "1.0.0",
+  "description": "基于react-hook-form的可动态配置的表单。",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "./dist/"
+  ],
+  "scripts": {
+    "build": "npm run rm && rollup -c",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "rm": "rimraf ./dist"
+  },
+  "keywords": [
+    "配置式表单",
+    "react-hook-form"
+  ],
+  "author": "sunfy <675569732@qq.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@hookform/error-message": "^2.0.1",
+    "lodash-es": "^4.17.21",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.45.1"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.22.7",
+    "@babel/preset-react": "^7.22.5",
+    "@babel/preset-typescript": "^7.22.5",
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-commonjs": "^25.0.2",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-terser": "^0.4.3",
+    "@types/lodash-es": "^4.17.7",
+    "@types/react": "^18.2.14",
+    "@types/react-dom": "^18.2.6",
+    "rimraf": "^5.0.1",
+    "rollup": "^3.26.1",
+    "rollup-plugin-node-externals": "^6.1.1",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-typescript2": "^0.35.0",
+    "typescript": "^5.1.6"
+  }
+}
