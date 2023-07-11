@@ -1,8 +1,9 @@
 {
-  "name": "dynamic-react-hook-form",
-  "version": "1.0.1",
+  "name": "@sunfy/dynamic-react-hook-form",
+  "version": "1.0.0",
   "description": "基于react-hook-form的可动态配置的表单。",
   "type": "module",
+  "private": false,
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
@@ -43,5 +44,9 @@
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-typescript2": "^0.35.0",
     "typescript": "^5.1.6"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }
