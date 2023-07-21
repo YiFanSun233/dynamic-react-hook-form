@@ -1,16 +1,16 @@
 import React, { memo, useCallback, useEffect } from 'react';
-import { Controller, ControllerRenderProps, FieldValues, useFormContext } from 'react-hook-form';
-import { ControllerProps, SchemaField } from '../types';
+import { Controller, ControllerFieldState, ControllerRenderProps, FieldValues, UseFormStateReturn, useFormContext } from 'react-hook-form';
+import { ControllerProps, SchemaCommon } from '../types';
 import { isString } from 'lodash-es';
 
-const newOnChange = (schema: SchemaField, onChange: (...event: any[]) => void, event: any[]) => {
+const newOnChange = (schema: SchemaCommon, onChange: (...event: any[]) => void, event: any[]) => {
   if (schema?.transform?.output) {
     return onChange(schema.transform.output(event))
   }
   return onChange(event)
 }
 
-const newValue = (schema: SchemaField, value: any) => {
+const newValue = (schema: SchemaCommon, value: any) => {
   if (schema?.transform?.input) {
     return schema.transform.input(value || '')
   }
@@ -35,7 +35,22 @@ const FormController: React.FC<ControllerProps> = ({ name, schema, element }) =>
    * @param {*} useCallback
    * @return {*}
    */
-  const renderChild = useCallback((field: ControllerRenderProps<FieldValues, string>) => React.cloneElement(element, { schema, field: { ...field, onChange: (e: any) => newOnChange(schema, field.onChange, e), value: newValue(schema, field.value) } }), [element, schema])
+  const renderChild = useCallback((field: ControllerRenderProps<FieldValues, string>) => {
+    const _selfProps = schema?.selfProps ?? {}
+    const _field = { ...field, onChange: (e: any) => newOnChange(schema, field.onChange, e), value: newValue(schema, field.value) }
+    return React.cloneElement(element, { ..._selfProps, ..._field })
+  }, [element, schema])
+
+  /**
+   * @description: controller render
+   * @param {*} useCallback
+   * @return {*} React.ReactElement
+   */
+  const fieldRender = useCallback(({ field }: {
+    field: ControllerRenderProps<FieldValues, string>;
+    fieldState: ControllerFieldState;
+    formState: UseFormStateReturn<FieldValues>;
+  }) => renderChild(field), [renderChild])
 
   /**
    * @description: 将required加到rules
@@ -54,10 +69,7 @@ const FormController: React.FC<ControllerProps> = ({ name, schema, element }) =>
       control={control}
       name={name}
       rules={rules}
-      defaultValue={schema.defaultValue}
-      render={({ field }) =>
-        renderChild(field)
-      }
+      render={fieldRender}
     />
   )
 }

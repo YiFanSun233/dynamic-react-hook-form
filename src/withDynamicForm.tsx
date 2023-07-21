@@ -3,13 +3,13 @@ import { LayoutProvider } from "./LayoutContext";
 
 function withDynamicForm(Main: React.ComponentType<YiFormProps>) {
   return (props: WithDynamicFormProps) => {
-    const { schemas, onFinished, widgets, form, method } = props
+    const { schemas, onFinished, widgets, form, config } = props
     const form_props = {
       form,
-      method,
       schemas,
       widgets,
-      onFinished
+      onFinished,
+      config
     }
 
     return (

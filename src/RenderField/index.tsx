@@ -1,15 +1,14 @@
 import React from "react";
-import FormItem from "../FormItem";
 import { FormSchema, SchemaField, Widgets } from "../types";
 import { isEmpty } from "lodash-es";
 import { formatSchema } from "../utils/form";
+import Wrapper from "../Wrapper";
 
 const renderField = (dataIndex: string, fieldSchema: SchemaField, widgets: Widgets): React.ReactNode => {
-  const Element = widgets[fieldSchema?.component!]
-  return <FormItem key={dataIndex} name={dataIndex} schema={fieldSchema} element={<Element />} />
+  return <Wrapper key={dataIndex} name={dataIndex} schema={fieldSchema} widgets={widgets} />
 }
 
-const renderCore = (schema: FormSchema, widgets: Widgets, parentKey?: string): React.ReactNode => {
+const renderCore = (schema: FormSchema, widgets: Widgets): React.ReactNode => {
   if (!schema || isEmpty(schema)) {
     return null
   }

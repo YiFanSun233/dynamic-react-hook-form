@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 
-type ILayout = { column: number; gap: number; }
+export type ILayout = { column: number; gap: number; layout?: 'horizontal' | 'vertical', labelWidth?: number | string, wrapperWidth?: number | string }
 
 const LayoutContext = createContext<{
   layout: ILayout

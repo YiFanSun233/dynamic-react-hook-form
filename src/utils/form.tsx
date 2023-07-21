@@ -15,14 +15,12 @@ const useFormValues = () => {
   }
 }
 
-const useYiForm = (config: Partial<{ mode: keyof ValidationMode; reValidateMode: "onBlur" | "onChange" | "onSubmit"; defaultValues: { [x: string]: any; } | ((payload?: unknown) => Promise<FieldValues>); values: FieldValues; resetOptions: Partial<{ keepDirtyValues: boolean; keepErrors: boolean; keepDirty: boolean; keepValues: boolean; keepDefaultValues: boolean; keepIsSubmitted: boolean; keepTouched: boolean; keepIsValid: boolean; keepSubmitCount: boolean; }> | undefined; resolver: Resolver<FieldValues, any>; context: any; shouldFocusError: boolean; shouldUnregister: boolean; shouldUseNativeValidation: boolean; criteriaMode: CriteriaMode; delayError: number; }> | undefined) => {
+const useYiForm = () => {
   const form = useRef<{
     submit: () => void
   }>()
-  const method = useForm(config)
   return {
-    form,
-    method
+    form
   }
 }
 

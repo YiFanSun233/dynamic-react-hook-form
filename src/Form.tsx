@@ -1,5 +1,5 @@
 import React, { useImperativeHandle } from "react";
-import { FormProvider } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { YiFormProps } from "./types";
 import { memo, useMemo } from "react";
 import renderCore from "./RenderField";
@@ -7,11 +7,14 @@ import { LayoutProvider } from "./LayoutContext";
 import { get, set } from "lodash-es";
 import { formatSchema } from "./utils/form";
 
-const YiForm: React.FC<YiFormProps> = ({ schemas, widgets, onFinished, form, method }) => {
+const YiForm: React.FC<YiFormProps> = ({ schemas, widgets, onFinished, config, form }) => {
 
-  const { handleSubmit } = method
+  const method = useForm({
+    mode: 'onChange',
+    ...config
+  })
 
-  const onSubmit = useMemo(() => handleSubmit(data => {
+  const onSubmit = useMemo(() => method.handleSubmit(data => {
     const newData: Record<string, any> = {}
     const schema = formatSchema(schemas.properties)
     Object.entries(schema).forEach(([key, item]) => {
@@ -23,7 +26,7 @@ const YiForm: React.FC<YiFormProps> = ({ schemas, widgets, onFinished, form, met
       }
     })
     return onFinished(newData)
-  }), [handleSubmit, onFinished, schemas])
+  }), [method.handleSubmit, onFinished, schemas])
 
   useImperativeHandle(
     form,
@@ -37,8 +40,11 @@ const YiForm: React.FC<YiFormProps> = ({ schemas, widgets, onFinished, form, met
 
   return (
     <LayoutProvider layout={{
-      column: schemas.column || 1,
-      gap: schemas.gap || 24
+      column: schemas?.column ?? 1,
+      gap: schemas?.gap ?? 24,
+      layout: schemas?.layout,
+      labelWidth: schemas?.labelWidth,
+      wrapperWidth: schemas?.wrapperWidth
     }}>
       <FormProvider {...method}>
         <form autoComplete="off">
