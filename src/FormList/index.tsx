@@ -1,9 +1,10 @@
-import { memo, useEffect } from "react";
+import { memo, useEffect, useMemo } from "react";
 import { ArraySchema, Widgets } from "../types";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import FormContent from "../FormContent";
 import FormController from "../Controller";
 import useLayoutContext from "../LayoutContext";
+import MessageBox from "../MessageBox";
 
 interface IFormList {
   name: string;
@@ -12,7 +13,7 @@ interface IFormList {
 }
 
 const FormList: React.FC<IFormList> = ({ name, schema, widgets }) => {
-  const { control, unregister } = useFormContext()
+  const { control, unregister, formState: { errors } } = useFormContext()
   const { layout } = useLayoutContext()
   const { fields, append, remove } = useFieldArray({
     control,
@@ -43,6 +44,7 @@ const FormList: React.FC<IFormList> = ({ name, schema, widgets }) => {
                     return (
                       <FormContent key={`${name}.${index}.${key}`} layout={{ layout: 'horizontal' }} name={`${name}.${index}.${key}`} schema={value}>
                         <FormController name={`${name}.${index}.${key}`} schema={value} element={<Element />} />
+                        <MessageBox name={`${name}.${index}.${key}`} helpText={value.helpText} />
                       </FormContent>
                     )
                   })
@@ -55,6 +57,7 @@ const FormList: React.FC<IFormList> = ({ name, schema, widgets }) => {
             <div style={{ border: '1px dashed #d9d9d9', textAlign: 'center', height: 32, lineHeight: '32px', fontSize: 12, cursor: 'pointer' }} onClick={() => append({})}>新增一条</div>
           </div>
         </div>
+        <MessageBox name={name} helpText={schema?.helpText} />
       </FormContent>
     </>
   )

@@ -1,12 +1,12 @@
 import React, { forwardRef, useRef } from "react";
-import { useFormContext, useWatch, useForm, CriteriaMode, FieldValues, Resolver, ValidationMode } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import { FormSchema, SchemaField } from "../types";
 
 /**
  * @description: 实时获取表单数据
  * @return {*}
  */
-const useFormValues = () => {
+const useFormValues = (): any => {
   const { getValues } = useFormContext();
 
   return {
