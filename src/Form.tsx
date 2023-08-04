@@ -1,13 +1,12 @@
 import React, { useImperativeHandle } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { YiFormProps } from "./types";
+import { DynamicFormProps } from "./types";
 import { memo, useMemo } from "react";
 import renderCore from "./RenderField";
-import { LayoutProvider } from "./LayoutContext";
 import { get, set } from "lodash-es";
 import { formatSchema } from "./utils/form";
 
-const YiForm: React.FC<YiFormProps> = ({ schemas, widgets, onFinished, config, form }) => {
+const DynamicForm: React.FC<DynamicFormProps> = ({ schemas, widgets, onFinished, config, form }) => {
 
   const method = useForm({
     mode: 'onChange',
@@ -31,7 +30,6 @@ const YiForm: React.FC<YiFormProps> = ({ schemas, widgets, onFinished, config, f
   useImperativeHandle(
     form,
     () => ({
-      ...method,
       submit: onSubmit
     })
   )
@@ -39,26 +37,18 @@ const YiForm: React.FC<YiFormProps> = ({ schemas, widgets, onFinished, config, f
   const renderField = useMemo(() => renderCore(schemas, widgets), [schemas, widgets])
 
   return (
-    <LayoutProvider layout={{
-      column: schemas?.column ?? 1,
-      gap: schemas?.gap ?? 24,
-      layout: schemas?.layout,
-      labelWidth: schemas?.labelWidth,
-      wrapperWidth: schemas?.wrapperWidth
-    }}>
-      <FormProvider {...method}>
-        <form autoComplete="off">
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: `repeat(${schemas.column}, minmax(0px, 1fr))`,
-            gap: schemas.gap || 24
-          }}>
-            {renderField}
-          </div>
-        </form>
-      </FormProvider>
-    </LayoutProvider>
+    <FormProvider {...method}>
+      <form autoComplete="off">
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: `repeat(${schemas.column}, minmax(0px, 1fr))`,
+          gap: schemas.gap || 24
+        }}>
+          {renderField}
+        </div>
+      </form>
+    </FormProvider>
   )
 }
 
-export default memo(YiForm)
+export default memo(DynamicForm)

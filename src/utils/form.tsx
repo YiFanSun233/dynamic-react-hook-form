@@ -1,6 +1,6 @@
-import React, { forwardRef, useRef } from "react";
-import { useFormContext, useWatch } from "react-hook-form";
-import { FormSchema, SchemaField } from "../types";
+import React, { forwardRef, useMemo, useRef } from "react";
+import { FieldValues, UseFormReturn, useForm, useFormContext, useWatch } from "react-hook-form";
+import { FormConfig, FormSchema, SchemaField } from "../types";
 
 /**
  * @description: 实时获取表单数据
@@ -15,10 +15,13 @@ const useFormValues = (): any => {
   }
 }
 
-const useYiForm = () => {
-  const form = useRef<{
-    submit: () => void
-  }>()
+const useDynamicForm = () => {
+  const form = useRef<
+    UseFormReturn<FieldValues, any, undefined>
+    & {
+      submit: () => void
+    }>()
+
   return {
     form
   }
@@ -87,7 +90,7 @@ function flattenObject(obj: object, prefix = ''): Record<string, any> {
 
 
 export {
-  useYiForm,
+  useDynamicForm,
   useFormValues,
   withForwardRef,
   formatSchema,

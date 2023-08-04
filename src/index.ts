@@ -1,9 +1,10 @@
 import YiForm from './Form'
 import withDynamicForm from './withDynamicForm'
-import { useFormValues, useYiForm, withForwardRef } from './utils/form'
+import { useFormValues, useDynamicForm, withForwardRef } from './utils/form'
 import { FieldArray, NormalFieldProps, ArrayFieldProps, FormSchema, SchemaField, NormalSchema, ArraySchema } from './types'
+import { useFormContext, useFormState, useWatch, useForm } from 'react-hook-form'
 
-export { useFormValues, useYiForm, withForwardRef, FieldArray }
-export type { NormalFieldProps, ArrayFieldProps, FormSchema, SchemaField, NormalSchema, ArraySchema }
+export { useFormContext, useFormState, useWatch, useForm, useFormValues, useDynamicForm, withForwardRef }
+export type { NormalFieldProps, ArrayFieldProps, FormSchema, SchemaField, NormalSchema, ArraySchema, FieldArray }
 
 export default withDynamicForm(YiForm)

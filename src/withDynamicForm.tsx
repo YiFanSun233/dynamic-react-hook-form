@@ -1,7 +1,7 @@
-import { WithDynamicFormProps, YiFormProps } from "./types";
+import { WithDynamicFormProps, DynamicFormProps } from "./types";
 import { LayoutProvider } from "./LayoutContext";
 
-function withDynamicForm(Main: React.ComponentType<YiFormProps>) {
+function withDynamicForm(Main: React.ComponentType<DynamicFormProps>) {
   return (props: WithDynamicFormProps) => {
     const { schemas, onFinished, widgets, form, config } = props
     const form_props = {
@@ -14,8 +14,11 @@ function withDynamicForm(Main: React.ComponentType<YiFormProps>) {
 
     return (
       <LayoutProvider layout={{
-        column: Math.floor(24 / (schemas.column || 1)),
-        gap: schemas.gap || 24
+        column: schemas?.column ?? 1,
+        gap: schemas?.gap ?? 24,
+        layout: schemas?.layout,
+        labelWidth: schemas?.labelWidth,
+        wrapperWidth: schemas?.wrapperWidth
       }}>
         <Main {...form_props} />
       </LayoutProvider>

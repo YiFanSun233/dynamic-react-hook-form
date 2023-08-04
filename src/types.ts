@@ -55,15 +55,17 @@ export type FormSchema = {
   properties?: { [x: string]: SchemaField };
 }
 
+export type FormConfig = Partial<{ mode: keyof ValidationMode; reValidateMode: "onBlur" | "onChange" | "onSubmit"; defaultValues: { [x: string]: any; } | ((payload?: unknown) => Promise<FieldValues>); values: FieldValues; resetOptions: Partial<{ keepDirtyValues: boolean; keepErrors: boolean; keepDirty: boolean; keepValues: boolean; keepDefaultValues: boolean; keepIsSubmitted: boolean; keepTouched: boolean; keepIsValid: boolean; keepSubmitCount: boolean; }> | undefined; resolver: Resolver<FieldValues, any>; context: any; shouldFocusError: boolean; shouldUnregister: boolean; shouldUseNativeValidation: boolean; criteriaMode: CriteriaMode; delayError: number; }> | undefined;
+
 export type WithDynamicFormProps = {
   form: React.MutableRefObject<any>;
-  config: Partial<{ mode: keyof ValidationMode; reValidateMode: "onBlur" | "onChange" | "onSubmit"; defaultValues: { [x: string]: any; } | ((payload?: unknown) => Promise<FieldValues>); values: FieldValues; resetOptions: Partial<{ keepDirtyValues: boolean; keepErrors: boolean; keepDirty: boolean; keepValues: boolean; keepDefaultValues: boolean; keepIsSubmitted: boolean; keepTouched: boolean; keepIsValid: boolean; keepSubmitCount: boolean; }> | undefined; resolver: Resolver<FieldValues, any>; context: any; shouldFocusError: boolean; shouldUnregister: boolean; shouldUseNativeValidation: boolean; criteriaMode: CriteriaMode; delayError: number; }> | undefined;
+  config: FormConfig;
   schemas: FormSchema;
   onFinished: (value: any) => void;
   widgets: Widgets;
 }
 
-export type YiFormProps = WithDynamicFormProps
+export type DynamicFormProps = WithDynamicFormProps
 
 export type NormalFieldProps = {
   schema: NormalSchema;
