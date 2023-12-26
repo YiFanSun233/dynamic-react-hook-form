@@ -3,7 +3,6 @@
   "version": "1.0.2",
   "description": "基于react-hook-form的可动态配置的表单。",
   "type": "module",
-  "private": false,
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [

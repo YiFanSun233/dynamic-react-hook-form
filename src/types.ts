@@ -1,4 +1,5 @@
 import { ControllerRenderProps, CriteriaMode, FieldValues, Resolver, UseFieldArrayReturn, UseFormReturn, ValidationMode } from "react-hook-form";
+import { RulesType } from "./utils/validate.formats";
 
 export type SchemaType = 'object' | 'string' | 'boolean' | 'null' | 'number'
 type ArrayType = 'array'
@@ -14,7 +15,7 @@ export type SchemaCommon = {
   component?: string;
   defaultValue?: any;
   required?: string | boolean;
-  rules?: any;
+  rules?: RulesType | Record<string, any>;
   helpText?: string;
   dependencies?: string[],
   hidden?: IValue;
@@ -37,7 +38,7 @@ export type ArraySchema = SchemaCommon & {
   type: ArrayType;
   item: {
     type: 'object',
-    properties: { [x: string]: SchemaCommon & { selfProps?: Record<string, any> } };
+    properties: { [x: string]: NormalSchema };
   }
 }
 
@@ -58,7 +59,7 @@ export type FormSchema = {
 export type FormConfig = Partial<{ mode: keyof ValidationMode; reValidateMode: "onBlur" | "onChange" | "onSubmit"; defaultValues: { [x: string]: any; } | ((payload?: unknown) => Promise<FieldValues>); values: FieldValues; resetOptions: Partial<{ keepDirtyValues: boolean; keepErrors: boolean; keepDirty: boolean; keepValues: boolean; keepDefaultValues: boolean; keepIsSubmitted: boolean; keepTouched: boolean; keepIsValid: boolean; keepSubmitCount: boolean; }> | undefined; resolver: Resolver<FieldValues, any>; context: any; shouldFocusError: boolean; shouldUnregister: boolean; shouldUseNativeValidation: boolean; criteriaMode: CriteriaMode; delayError: number; }> | undefined;
 
 export type WithDynamicFormProps = {
-  form: React.MutableRefObject<any>;
+  form: React.RefObject<any>;
   config: FormConfig;
   schemas: FormSchema;
   onFinished: (value: any) => void;
@@ -69,13 +70,13 @@ export type DynamicFormProps = WithDynamicFormProps
 
 export type NormalFieldProps = {
   schema: NormalSchema;
-  ref: React.Ref<any>;
+  ref: React.RefObject<any>;
   field: ControllerRenderProps<any, string>;
 }
 
 export type ArrayFieldProps = {
   schema: ArraySchema['item']['properties'];
-  ref: React.Ref<any>;
+  ref: React.RefObject<any>;
   method: UseFieldArrayReturn<FieldValues, string, "id">;
 }
 

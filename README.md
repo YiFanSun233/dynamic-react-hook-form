@@ -2,12 +2,49 @@
 
 配置式表单组件
 
+### 增加FormList
+
 ## 使用方式
 
 ```js
 const schema: FormSchema = {
   type: 'object',
   properties: {
+    news: {
+      type: 'array',
+      title: '新闻',
+      transform: {
+        format(value) {
+          return value.map((item: any) => ({
+            ...item,
+            newsDate: item?.newsDate?.format('YYYY/MM/DD')
+          }))
+        },
+      },
+      item: {
+        type: 'object',
+        properties: {
+          newsTitle: {
+            title: '新闻标题',
+            component: 'Text',
+            required: true
+          },
+          newsAuthor: {
+            title: '作者',
+            component: 'Text'
+          },
+          newsDate: {
+            title: '新闻日期',
+            component: 'Date',
+            transform: {
+              format(value) {
+                return value?.format('YYYY/MM/DD')
+              },
+            },
+          }
+        }
+      }
+    },
     date: {
       type: 'string',
       title: '日期',
@@ -80,7 +117,7 @@ const schema: FormSchema = {
         sex: {
           type: 'string',
           title: 'Sex',
-          component: 'Checkbox',
+          component: 'Checkbox.Group',
           required: false,
           selfProps: {
             options: [
@@ -122,6 +159,9 @@ const schema: FormSchema = {
             if (deps[1]?.includes('other')) return true
           },
           selfProps: {
+            style: {
+              width: "100%"
+            },
             options: [
               {
                 label: 'eat',

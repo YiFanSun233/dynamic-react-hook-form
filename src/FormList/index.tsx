@@ -1,10 +1,11 @@
-import { memo, useEffect, useMemo } from "react";
+import { memo, useEffect } from "react";
 import { ArraySchema, Widgets } from "../types";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import FormContent from "../FormContent";
 import FormController from "../Controller";
 import useLayoutContext from "../LayoutContext";
 import MessageBox from "../MessageBox";
+import { formatRules } from "../utils/form";
 
 interface IFormList {
   name: string;
@@ -18,7 +19,7 @@ const FormList: React.FC<IFormList> = ({ name, schema, widgets }) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name,
-    rules: schema.rules
+    rules: formatRules(schema.rules)
   })
 
   /**
