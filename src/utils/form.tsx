@@ -40,7 +40,7 @@ const useDynamicForm = () => {
  * @return {*}
  */
 const withForwardRef = (
-	Component: React.FunctionComponent<any>
+	Component: React.ElementType<any>
 ): React.ForwardRefExoticComponent<React.RefAttributes<unknown>> => {
 	return forwardRef((props, ref) => {
 		return (
@@ -63,18 +63,33 @@ const formatSchema = (
 	schema: FormSchema["properties"],
 	prefix: any = "",
 	result: any = {}
-): Record<string, SchemaField> => {
+): Record<string, SchemaField & { deep?: number }> => {
 	if (!schema) throw Error("schema 格式不正确");
-	Object.entries(schema).forEach(([key, value]) => {
+	Object.entries(schema).forEach(([key, value], index) => {
 		const newKey = prefix ? `${prefix}.${key}` : key;
 		if (value.type === "object" && Reflect.has(value, "properties")) {
 			formatSchema(value.properties, newKey, result);
 		} else {
 			result[newKey] = value;
+			result[newKey]["deep"] = index++;
 		}
 	});
 	return result;
 };
+
+/**
+ *
+ * @param object inputObj {'a.b.c':'value'}
+ * @returns object {a:{b:{c:'value'}}}
+ */
+function transformObject(inputObj: Record<string, any>) {
+	return Object.entries(inputObj).reduce((acc, [key, value]) => {
+		key.split(".").reduce((obj, prop, index, arr) => {
+			return (obj[prop] = index === arr.length - 1 ? value : obj[prop]! || {});
+		}, acc);
+		return acc;
+	}, {} as Record<string, any>);
+}
 
 function flattenObject(obj: object, prefix = ""): Record<string, any> {
 	const result: Record<string, any> = {};
@@ -125,4 +140,5 @@ export {
 	withForwardRef,
 	formatSchema,
 	flattenObject,
+	transformObject
 };
