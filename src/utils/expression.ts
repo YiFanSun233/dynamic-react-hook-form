@@ -1,9 +1,8 @@
-import { cloneDeep, isBoolean, isFunction, isNumber, isObject } from "lodash-es"
+import { cloneDeep, isFunction, isObject } from "lodash-es";
 import { SchemaField } from "../types";
-import { flattenObject } from "./form";
 
 const FUNC_REGEXP = /^{\s*{(.+)}\s*}$/;
-const SupportExpressionKey = ['title', 'placeholder', 'required', 'options', 'helpText', 'hidden']
+const NotSupportExpressionKey = ['type', 'component', 'dependencies', 'column', 'transform']
 
 export const isExpression = (str: string, key: string) => {
   if (typeof str !== 'string') {
@@ -11,7 +10,8 @@ export const isExpression = (str: string, key: string) => {
   }
 
   const result = str.match(FUNC_REGEXP)
-  if (result && !SupportExpressionKey.includes(key)) {
+
+  if(result && NotSupportExpressionKey.includes(key)){
     throw Error(`此属性不支持表达式：${key}`)
   }
 
