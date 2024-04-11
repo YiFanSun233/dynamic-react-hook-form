@@ -50,6 +50,7 @@ export type FormSchema = {
   column?: number;
   gap?: number;
   layout?: 'horizontal' | 'vertical',
+  labelSize?: number | string;
   labelWidth?: number | string,
   wrapperWidth?: number | string,
   type: SchemaType;
