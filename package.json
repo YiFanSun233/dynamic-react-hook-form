@@ -1,6 +1,6 @@
 {
   "name": "@sunfy/dynamic-react-hook-form",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "基于react-hook-form的可动态配置的表单。",
   "type": "module",
   "main": "./dist/index.js",
